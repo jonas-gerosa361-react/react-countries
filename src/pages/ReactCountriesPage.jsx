@@ -4,6 +4,7 @@ import Main from "../components/Main";
 import TextInput from "../components/TextInput";
 import {allCountries} from "../data/countries";
 import Countries from "../components/Countries";
+import Country from "../components/Country";
 
 export default function ReactCountriesPage() {
     const [filterCountry, setFilterCountry] = useState('');
@@ -43,9 +44,29 @@ export default function ReactCountriesPage() {
                     inputDefaultValue={filterCountry}
                     onInputChange={handleFilterCountry}
                     labelDescription="Digite um pais: (pelo menos 3 caracteres)" />
-                <Countries visitedCountries={visitedCountries} onCountryClick={toggleVisitedCountries}>{filteredCountries}</Countries>
                 </form>
 
+                <Countries>
+                        <h2 className="text-center font-semibold">
+                            {`${filteredCountries.length} pais(es) encontrados`}
+                        </h2>
+                        <h3 className="text-center font-semibold">{
+                            visitedCountries.length} paises visitados
+                        </h3>
+                    {
+
+                        filteredCountries.map(country => {
+                            const isVisited = visitedCountries.indexOf(country.id) !== -1;
+                            return (
+                            <Country isVisited={isVisited}
+                                onCountryClick={toggleVisitedCountries}
+                                key={country.id}
+                            >
+                                {country}
+                            </Country>)
+                        })
+                    }
+                </Countries>
             </Main>
         </div>
     )
